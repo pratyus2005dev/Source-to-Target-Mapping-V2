@@ -1,78 +1,102 @@
 # Source-to-Target-Mapping-V2
 
-## Overview
+# Data Mapping and Synonym Suggestion Tool
 
-**Source-to-Target-Mapping-V2** is an advanced Python-based framework designed to automate and visualize the mapping of data elements from source systems to target systems. This tool is particularly useful for data integration, ETL processes, and data migration projects, where understanding and documenting the relationships between source and target data structures is crucial.
+## Overview
+This project provides a comprehensive solution for mapping and suggesting synonyms between data fields from different insurance data sources. It leverages machine learning and rule-based techniques to automate the mapping process, making it easier to integrate and analyze data from multiple systems.
 
 ## Features
+- **Automated Field Mapping:** Suggests mappings between fields from different datasets using a trained ML model.
+- **Synonym Generation:** Generates and manages synonyms for field names to improve mapping accuracy.
+- **Configurable Pipeline:** Easily adjust data sources, model parameters, and synonym lists via configuration files.
+- **Dashboard:** Visualize mapping suggestions and review results interactively.
+- **Extensible:** Modular codebase for easy extension to new data sources or mapping strategies.
 
-* **Dynamic System Configuration**: Easily configure source and target system names through the sidebar interface.
-* **Interactive Dashboard**: Visualize mappings, match scores, and data relationships in an intuitive dashboard.
-* **CSV and JSON Support**: Import mapping suggestions from CSV and JSON files.
-* **Confidence Thresholding**: Filter mappings based on confidence scores to focus on high-quality matches.
-* **Alternate Suggestions**: View alternate mapping suggestions to explore potential matches.
-* **Downloadable Reports**: Export mapping results and summaries for documentation and further analysis.
-
-## Requirements
-
-Ensure you have the following installed:
-
-* Python 3.8+
-* pip (Python package installer)
-
-## Installation
-
-Clone the repository and install the required dependencies:
-
-```bash
-git clone https://github.com/pratyus2005dev/Source-to-Target-Mapping-V2.git
-cd Source-to-Target-Mapping-V2
-pip install -r requirements.txt
+## Project Structure
 ```
+dashboard.py                # Dashboard for visualizing mapping suggestions
+DDL.sql                     # Example DDL for database schema
+generate_synonyms.py        # Script to generate synonyms for field names
+main.py                     # Main entry point for running the pipeline
+requirements.txt            # Python dependencies
+configs/
+    config.yaml             # Main configuration file
+    synonyms.json           # Synonym dictionary
+models/
+    matcher.pkl             # Trained ML model for field matching
+outputs/
+    mapping_suggestions.*   # Output files (CSV, JSON) with mapping results
+data/
+    guidewire/              # Guidewire data CSVs
+    insurenow/              # InsureNow data CSVs
+src/
+    config.py               # Config loader
+    data_loader.py          # Data loading utilities
+    ddl_parser.py           # DDL parsing logic
+    featurizer.py           # Feature engineering for ML model
+    model.py                # ML model definition and utilities
+    predict.py              # Prediction logic for mapping
+    train.py                # Model training script
+    utils.py                # Helper functions
+```
+
+## Setup
+1. **Clone the repository**
+   ```sh
+   git clone <repo-url>
+   cd <repo-folder>
+   ```
+2. **Install dependencies**
+   ```sh
+   pip install -r requirements.txt
+   ```
+3. **Configure the project**
+   - Edit `configs/config.yaml` to set data paths and parameters.
+   - Update `configs/synonyms.json` with custom synonyms if needed.
 
 ## Usage
-
-Run the application using Streamlit:
-
-```bash
-streamlit run dashboard.py
+### 1. Train the Model
+Train the matcher model using the provided training script:
+```sh
+python src/train.py
 ```
 
-This command will start a local server, and you can access the dashboard by navigating to the provided URL in your web browser.
+### 2. Generate Synonyms
+Generate or update synonyms for field names:
+```sh
+python generate_synonyms.py
+```
 
-### Input Files
+### 3. Run the Mapping Pipeline
+Run the main pipeline to generate mapping suggestions:
+```sh
+python main.py
+```
 
-* **CSV File**: Upload a `mapping_suggestions.csv` file containing the source and target mappings.
-* **JSON File**: Optionally, upload a `mapping_suggestions.json` file for additional mapping details.
+### 4. View Results
+- Check the `outputs/` directory for mapping suggestions in CSV and JSON formats.
+- Launch the dashboard for interactive review:
+  ```sh
+  python dashboard.py
+  ```
 
-### Configuration
+## Configuration
+- **config.yaml:** Controls data paths, model parameters, and other settings.
+- **synonyms.json:** Stores field name synonyms for improved matching.
 
-* **Source System**: Specify the name of the source system (e.g., "Guidewire").
-* **Target System**: Specify the name of the target system (e.g., "InsureNow").
+## Data
+- Place your source CSV files in the appropriate subfolders under `data/guidewire/` and `data/insurenow/`.
+- Update the config file if you add new data sources.
 
-### Features in the Dashboard
+## Extending the Project
+- Add new data loaders in `src/data_loader.py` for additional formats.
+- Extend feature engineering in `src/featurizer.py` for better model performance.
+- Update or retrain the model using `src/train.py` as needed.
 
-* **Column Mapping Explorer**: Search for source or target columns to find their mappings.
-* **Metrics Overview**: View total columns, matched columns, and match percentages.
-* **Charts**: Visual representations of matched vs. unmatched columns, match rates by source table, and score distributions.
-* **Low-Confidence Matches**: Identify mappings with low confidence scores for further review.
-* **Top Matches**: View the highest confidence mappings.
-* **Best Score Table**: Analyze mappings with the highest combined scores.
-* **Table-to-Table Summary**: Summarize mappings between source and target tables.
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Make your changes.
-4. Commit your changes (`git commit -am 'Add new feature'`).
-5. Push to the branch (`git push origin feature-name`).
-6. Create a new Pull Request.
-
-Please ensure your code adheres to the existing style and includes appropriate tests.
+## Requirements
+- Python 3.8+
+- See `requirements.txt` for all dependencies.
 
 
-
-Feel free to adjust the content as needed to better fit your project's specifics.
+## Contact
+For questions or contributions, please contact [Your Name] or open an issue in the repository.
