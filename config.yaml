@@ -1,0 +1,50 @@
+ddl_path: "DDL.sql"
+
+source:
+  root: "data/guidewire"
+  files:
+    Policy: "Guidewire_Policy.csv"
+    Customer: "Guidewire_Customer.csv"
+    Address: "Guidewire_CustomerAddress.csv"
+    Claim: "Guidewire_Claim.csv"
+    Broker: "Guidewire_Broker.csv"
+    Coverage: "Guidewire_PolicyCoverage.csv"
+    Payment: "Guidewire_Payment.csv"
+    PBroker: "Guidewire_PolicyBroker.csv"
+
+target:
+  root: "data/insurenow"
+  files:
+    Policy: "InsureNow_Contract.csv"
+    Customer: "InsureNow_Client.csv"
+    Address: "InsureNow_ClientAddress.csv"
+    Claim: "InsureNow_Incident.csv"
+    Broker: "InsureNow_Agent.csv"
+    Coverage: "InsureNow_Coverage.csv"
+    Payment: "InsureNow_Transaction.csv"
+    PBroker: "InsureNow_ContractAgent.csv"
+
+table_pairs:
+  - ["Policy", "Policy"]
+  - ["Customer", "Customer"]
+  - ["Address", "Address"]
+  - ["Claim", "Claim"]
+  - ["Broker", "Broker"]
+  - ["Coverage", "Coverage"]
+  - ["Payment", "Payment"]
+  - ["PBroker", "PBroker"]
+
+train:
+  model_out: "models/matcher.pkl"
+  negative_ratio: 3
+  test_size: 0.2
+  random_state: 42
+
+predict:
+  model_in: "models/matcher.pkl"
+  top_k: 5
+  threshold: 0.7
+  out_csv: "outputs/mapping_suggestions.csv"
+  out_json: "outputs/mapping_suggestions.json"
+
+synonyms_path: "configs/synonyms.json"
